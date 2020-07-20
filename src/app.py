@@ -8,6 +8,7 @@ import time
 from input_feeder import InputFeeder
 from mouse_controller import MouseController
 from face_detection import Face_Detection
+from facial_landmarks import Facial_Landmarks
 
 
 def get_args():
@@ -35,13 +36,21 @@ def main(args):
     fd.load_model()
     fd_loaded = time.time() - start
 
+    fl = Facial_Landmarks(
+        "models/intel/landmarks-regression-retail-0009/FP32/landmarks-regression-retail-0009")
+    fl.load_model()
     input_feed = InputFeeder(args.input_type, args.input)
     input_feed.load_data()
 
     for frame in input_feed.next_batch():
         if frame is not None:
-            show_frame = fd.predict(frame.copy())
-            cv2.imshow('face detection', show_frame)
+            face_frame = fd.predict(frame.copy())
+            left_x, left_y, right_x, right_y = fl.predict(face_frame)
+            face_frame = cv2.circle(
+                face_frame, (right_x, right_y), 5, (0, 255, 0))
+            face_frame = cv2.circle(
+                face_frame, (left_x, left_y), 5, (0, 255, 0))
+            cv2.imshow('face detection', face_frame)
             cv2.waitKey(0)
         else:
             break
