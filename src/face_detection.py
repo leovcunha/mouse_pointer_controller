@@ -16,7 +16,7 @@ class Face_Detection(Parent_Model):
         coords = []
         for box in outputs[0][0]:
             conf = box[2]
-            if conf >= self.threshold:
+            if conf >= 0.5:
                 coords.append([box[3], box[4], box[5], box[6]])
         coord = coords[0]
         coord[0] = int(coord[0] * self.image.shape[1])
