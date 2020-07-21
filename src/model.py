@@ -53,7 +53,7 @@ class Parent_Model:
         input_img = self.preprocess_input(self.image)
         input_dict = {self.input_name: input_img}
         out = self.net.infer(input_dict)
-        return self.preprocess_output(out[self.output_name])
+        return self.preprocess_output(out)
 
     def check_model(self):
         #raise NotImplementedError

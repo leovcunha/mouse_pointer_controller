@@ -9,6 +9,7 @@ from input_feeder import InputFeeder
 from mouse_controller import MouseController
 from face_detection import Face_Detection
 from facial_landmarks import Facial_Landmarks
+from head_pose_estimation import Head_Pose_Estimation
 
 
 def get_args():
@@ -39,19 +40,32 @@ def main(args):
     fl = Facial_Landmarks(
         "models/intel/landmarks-regression-retail-0009/FP32/landmarks-regression-retail-0009")
     fl.load_model()
+    hp = Head_Pose_Estimation(
+        "models/intel/head-pose-estimation-adas-0001/FP32/head-pose-estimation-adas-0001")
+    hp.load_model()
     input_feed = InputFeeder(args.input_type, args.input)
     input_feed.load_data()
 
     for frame in input_feed.next_batch():
         if frame is not None:
+            # face detection
             face_frame = fd.predict(frame.copy())
-            left_x, left_y, right_x, right_y = fl.predict(face_frame)
+            # eye detection through facial landmarks
+            left_eye_image, left_x, left_y, right_eye_image, right_x, right_y = fl.predict(
+                face_frame)
+            # head pose
+            yaw, pitch, roll = hp.predict(face_frame)
+
             face_frame = cv2.circle(
-                face_frame, (right_x, right_y), 5, (0, 255, 0))
+                face_frame, (right_x, right_y), 5, (255, 0, 0), -5)
             face_frame = cv2.circle(
-                face_frame, (left_x, left_y), 5, (0, 255, 0))
+                face_frame, (left_x, left_y), 5, (255, 0, 0), -5)
+            cv2.putText(face_frame, "yaw:{:.2f} - pitch:{:.2f} - roll:{:.2f}".format(
+                yaw, pitch, roll), (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.25, (255, 0, 0), 1)
+            cv2.imshow('left eye', left_eye)
+            cv2.imshow('right eye', right_eye)
             cv2.imshow('face detection', face_frame)
-            cv2.waitKey(0)
+            cv2.waitKey(60)
         else:
             break
 

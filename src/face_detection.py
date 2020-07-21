@@ -13,6 +13,7 @@ class Face_Detection(Parent_Model):
         you might have to preprocess the output. This function is where you can do that.
         '''
         #raise NotImplementedError
+        outputs = outputs[self.output_name]
         coords = []
         for box in outputs[0][0]:
             conf = box[2]
