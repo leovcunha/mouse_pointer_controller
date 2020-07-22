@@ -16,6 +16,7 @@ class Parent_Model:
         self.model_weights = model_name+'.bin'
         self.model_structure = model_name+'.xml'
         self.device = device
+        self.model_name = model_name
 
         try:
             self.core = IECore()
@@ -50,7 +51,8 @@ class Parent_Model:
         '''
         # NotImplementedError
         self.image = image.copy()
-        input_img = self.preprocess_input(self.image)
+        input_img = self.preprocess_input(
+            self.image, self.input_shape[3], self.input_shape[2])
         input_dict = {self.input_name: input_img}
         out = self.net.infer(input_dict)
         return self.preprocess_output(out)
@@ -70,14 +72,14 @@ class Parent_Model:
         else:
             return True
 
-    def preprocess_input(self, image):
+    def preprocess_input(self, image, width, height):
         '''
         Before feeding the data into the model for inference,
         you might have to preprocess it. This function is where you can do that.
         '''
         #raise NotImplementedError
         preprocessed_image = cv2.resize(
-            image, (self.input_shape[3], self.input_shape[2]), interpolation=cv2.INTER_AREA)
+            image, (width, height), interpolation=cv2.INTER_AREA)
         preprocessed_image = preprocessed_image.transpose((2, 0, 1))
         preprocessed_image = preprocessed_image.reshape(
             1, *preprocessed_image.shape)
