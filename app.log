@@ -1,0 +1,30 @@
+------Loading Times FP32------
+Face Detection: 0.37740 sec
+Facial Landmarks: 0.15526 sec
+Head Pose Estimation: 0.14334 sec
+Gaze Estimation: 0.17259 sec
+------Inference Times FP32------
+Face Detection: 0.04233 sec
+Facial Landmarks: 0.00162 sec
+Head Pose Estimation: 0.00287 sec
+Gaze Estimation: 0.00271 sec
+------Loading Times FP16------
+Face Detection: 0.51547 sec
+Facial Landmarks: 0.24160 sec
+Head Pose Estimation: 0.17567 sec
+Gaze Estimation: 0.22204 sec
+------Inference Times FP16------
+Face Detection: 0.04365 sec
+Facial Landmarks: 0.00169 sec
+Head Pose Estimation: 0.00363 sec
+Gaze Estimation: 0.00300 sec
+------Loading Times FP16-INT8------
+Face Detection: 0.61565 sec
+Facial Landmarks: 0.29069 sec
+Head Pose Estimation: 0.36981 sec
+Gaze Estimation: 0.38439 sec
+------Inference Times FP16-INT8------
+Face Detection: 0.04395 sec
+Facial Landmarks: 0.00176 sec
+Head Pose Estimation: 0.00301 sec
+Gaze Estimation: 0.00243 sec
