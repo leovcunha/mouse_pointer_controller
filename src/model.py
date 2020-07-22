@@ -17,6 +17,7 @@ class Parent_Model:
         self.model_structure = model_name+'.xml'
         self.device = device
         self.model_name = model_name
+        self.image = None
 
         try:
             self.core = IECore()

@@ -40,7 +40,26 @@ how to run a basic demo of the model:
 
 ## Documentation
 
-_TODO:_ Include any documentation that users might need to better understand your project code. For instance, this is a good place to explain the command line arguments that your project supports.
+```
+usage: app.py [-h] -t INPUT_TYPE [-i INPUT] [-v] [-p PRECISION] [-d DEVICE]
+              [-x EXTENSIONS]
+
+Mouse Pointer Controller using eye gaze
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -t INPUT_TYPE, --input-type INPUT_TYPE
+                        Type of input (video or cam)
+  -i INPUT, --input INPUT
+                        Input file
+  -v, --visualize       visualize a preview video
+  -p PRECISION, --precision PRECISION
+                        Model precision: FP32, FP16 or FP16-INT8
+  -d DEVICE, --device DEVICE
+                        Device to use CPU or GPU
+  -x EXTENSIONS, --extensions EXTENSIONS
+                        CPU Extensions
+```
 
 ## Benchmarks
 
