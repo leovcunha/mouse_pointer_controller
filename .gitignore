@@ -1,3 +1,5 @@
 DS_STORE
 models/intel
 src/__pycache__
+venv
+.vscode
