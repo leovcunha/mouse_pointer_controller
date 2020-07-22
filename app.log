@@ -28,3 +28,8 @@ Face Detection: 0.04395 sec
 Facial Landmarks: 0.00176 sec
 Head Pose Estimation: 0.00301 sec
 Gaze Estimation: 0.00243 sec
+------Loading Times FP16-INT8------
+Face Detection: 0.46256 sec
+Facial Landmarks: 0.27282 sec
+Head Pose Estimation: 0.34293 sec
+Gaze Estimation: 0.39483 sec

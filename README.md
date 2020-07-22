@@ -6,12 +6,21 @@ This projects uses Intel OpenVino Toolkit plus its pretrained AI models to build
 
 Setup procedures to run the project.
 
-**1. Have Python 3.6 and [OpenVino](https://docs.openvinotoolkit.org/latest/_docs_install_guides_installing_openvino_linux.html) installed**
+**1. Have Python 3.6 and [OpenVino](https://software.intel.com/content/www/us/en/develop/tools/openvino-toolkit/choose-download.html) installed following instruction**
+
+**1.5. If openvino variables are not preconfigured run:**
+
+```
+source /out/intel/openvino/bin/setupvars.sh -pyver 3.6
+```
 
 **2. Install requirements**
 
 ```bash
-pip install -r requirements.txt
+pip3 install virtualenv
+python3 -m virtualenv venv
+source venv/bin/activate
+pip install -r requirements.txt #inside folder
 ```
 
 **3. Download models**
@@ -25,7 +34,9 @@ pip install -r requirements.txt
 
 ## Demo
 
-_TODO:_ Explain how to run a basic demo of your model.
+how to run a basic demo of the model:
+
+`python3 src/app.py -t video -i ./bin/demo.mp4`
 
 ## Documentation
 
@@ -33,8 +44,34 @@ _TODO:_ Include any documentation that users might need to better understand you
 
 ## Benchmarks
 
-_TODO:_ Include the benchmark results of running your model on multiple hardwares and multiple model precisions. Your benchmarks can include: model loading time, input/output processing time, model inference time etc.
+#### CPU (Macbook Air 2013 - Dual-Core Intel Core i5)
+
+| Loading Times        | FP32    | FP16    | FP16-INT8 |     |
+| -------------------- | ------- | ------- | --------- | --- |
+| Face Detection       | 0.37740 | -       | -         | sec |
+| Facial Landmarks     | 0.15526 | 0.24160 | 0.29069   | sec |
+| Head Pose Estimation | 0.14334 | 0.17567 | 0.36981   | sec |
+| Gaze Estimation      | 0.17259 | 0.22204 | 0.38439   | sec |
+
+ <br>
+
+| Inference Times / Frame | FP32    | FP16    | FP16-INT8 |     |
+| ----------------------- | ------- | ------- | --------- | --- |
+| Face Detection          | 0.04233 | 0.04365 | 0.04395   | sec |
+| Facial Landmarks        | 0.00162 | 0.00169 | 0.00176   | sec |
+| Head Pose Estimation    | 0.00287 | 0.00363 | 0.00301   | sec |
+| Gaze Estimation         | 0.00271 | 0.00300 | 0.00243   | sec |
+
+Unfortunately only CPU is available for use with OpenVino in my computer
+
+```
+>>> ie = IECore()
+>>> print(ie.available_devices)
+['CPU']
+```
 
 ## Results
 
-_TODO:_ Discuss the benchmark results and explain why you are getting the results you are getting. For instance, explain why there is difference in inference time for FP32, FP16 and INT8 models.
+It can be seen that face detection is the most time consuming model.  
+All the models had very similar results for the processor used for inference.
+The loading times were better for the FP32 model.
