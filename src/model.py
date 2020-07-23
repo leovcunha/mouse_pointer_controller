@@ -63,15 +63,14 @@ class Parent_Model:
         supported_layers = self.core.query_network(self.model, self.device)
         not_supported_layers = [
             l for l in self.model.layers.keys() if l not in supported_layers]
-        if len(not_supported_layers) != 0:
+        if len(not_supported_layers):
             log.error("The following layers are not supported "
                       "by the IECore for the specified device {}:\n {}"
                       .format(self.device, ', '.join(not_supported_layers)))
             log.error("Please try to specify cpu extensions ")
             raise NotImplementedError(
                 "Some layers are not supported on the device")
-        else:
-            return True
+        return True
 
     def preprocess_input(self, image, width, height):
         '''

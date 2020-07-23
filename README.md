@@ -40,15 +40,51 @@ how to run a basic demo of the model:
 
 ## Documentation
 
+### Directory Structure
+
+All code files are in 'src' folder
+models installed in 'models' folder, and demo video file inside 'bin'. benchmark logs are recorded in 'app.log' file.
+
+model.py - the parent model for all in the pipeline.  
+face_detection.py - for processing output specifically of face rectangle coordinates.  
+facial_landmarks.py - finds the eyes and return the coordinates and crops the eyes from the face frame.  
+head_pose_estimation.py - returns the yaw, pitch and roll of the face.  
+gaze_estimation.py - returns the coordinates of the gaze direction used to move the mouse.
+
 ```
-usage: app.py [-h] -t INPUT_TYPE [-i INPUT] [-v] [-p PRECISION] [-d DEVICE]
+├── README.md
+├── app.log
+├── bin
+│   └── demo.mp4
+├── models
+│   └── intel
+│       ├── face-detection-adas-binary-0001
+│       ├── gaze-estimation-adas-0002
+│       ├── head-pose-estimation-adas-0001
+│       └── landmarks-regression-retail-0009
+├── requirements.txt
+├── src
+│   ├── app.py
+│   ├── face_detection.py
+│   ├── facial_landmarks.py
+│   ├── gaze_estimation.py
+│   ├── head_pose_estimation.py
+│   ├── input_feeder.py
+│   ├── model.py
+│   └── mouse_controller.py
+```
+
+### Command Line Usage
+
+```
+app.py [-h] -t INPUT_TYPE [-i INPUT] [-v] [-p PRECISION] [-d DEVICE]
               [-x EXTENSIONS]
 
 Mouse Pointer Controller using eye gaze
 
 optional arguments:
   -h, --help            show this help message and exit
-  -t INPUT_TYPE, --input-type INPUT_TYPE
+  -t INPUT_TYPE, --type INPUT_TYPE
                         Type of input (video or cam)
   -i INPUT, --input INPUT
                         Input file
@@ -81,7 +117,7 @@ optional arguments:
 | Head Pose Estimation    | 0.00287 | 0.00363 | 0.00301   | sec |
 | Gaze Estimation         | 0.00271 | 0.00300 | 0.00243   | sec |
 
-Unfortunately only CPU is available for use with OpenVino in my computer
+Only CPU was available for use with OpenVINO locally as of this writing.
 
 ```
 >>> ie = IECore()
@@ -94,3 +130,5 @@ Unfortunately only CPU is available for use with OpenVino in my computer
 It can be seen that face detection is the most time consuming model.  
 All the models had very similar results for the processor used for inference.
 The loading times were better for the FP32 model.
+
+The model with lower precision INT8 has smaller size which can be a good fit in case of space restriction. But it also could lose accuracy by lowering precision. So if space is not a problem a FP32 would be recommended and FP16 stays in the middle of the way as a compromise solution.

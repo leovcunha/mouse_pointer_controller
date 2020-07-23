@@ -16,7 +16,7 @@ from gaze_estimation import Gaze_Estimation
 def get_args():
     parser = ArgumentParser(
         description='Mouse Pointer Controller using eye gaze')
-    parser.add_argument("-t", "--input-type", required=True, type=str,
+    parser.add_argument("-t", "--type", required=True, type=str,
                         help="Type of input (video or cam)")
     parser.add_argument("-i", "--input", required=False, type=str,
                         help="Input file")
@@ -56,7 +56,7 @@ def main(args):
     gs.load_model()
     logging.info("Gaze Estimation: {:.5f} sec".format(time.time() - start))
 
-    input_feed = InputFeeder(args.input_type, args.input)
+    input_feed = InputFeeder(args.type, args.input)
     input_feed.load_data()
 
     mc = MouseController("high", "fast")
